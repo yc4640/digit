@@ -1,13 +1,15 @@
 # backend/app.py
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+app = Flask(__name__)
+CORS(app, resources={r"/*": {"origins": [
+    "http://localhost:5173",            # 本地开发
+    "https://<你的前端域名>.vercel.app"  # 上线后替换成真实域名
+]}})
 import os, time
 from model import TinyNN
 from utils import preprocess_pixels
 
-
-app = Flask(__name__)
-CORS(app)
 
 net = TinyNN()
 if os.path.exists("model.npz"):
@@ -36,4 +38,6 @@ def upload():
     })
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    import os
+    port = int(os.environ.get("PORT", 5000))  # Render 会注入 PORT
+    app.run(host="0.0.0.0", port=port, debug=False)
