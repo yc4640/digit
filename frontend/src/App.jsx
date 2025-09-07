@@ -72,7 +72,10 @@ export default function App() {
     setResult({ loading: true })
     const pixels = downscaleTo28()
     try {
-      const { data } = await axios.post('http://127.0.0.1:5000/upload', { pixels })
+      // 顶部或函数里
+      const API = import.meta.env.VITE_API_BASE || 'http://127.0.0.1:5000';
+      // 调用
+      const { data } = await axios.post(`${API}/upload`, { pixels });
       if (!data.ok) throw new Error(data.error || 'Server error')
       const top = topK(data.probs, 3)
       const r = { pred: data.pred, top, time_ms: data.time_ms }
