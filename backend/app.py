@@ -4,7 +4,7 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": [
     "http://localhost:5173",            # 本地开发
-    "https://<你的前端域名>.vercel.app"  # 上线后替换成真实域名
+    "https://digit-jet.vercel.app/"
 ]}})
 import os, time
 from model import TinyNN
